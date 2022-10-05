@@ -86,14 +86,15 @@ def main():
         for text in line_text:
             value = value + "\"{}\",".format(text)
         out_text = out_text + value.rstrip(',') + "\n"
-        value = "Options,TaskTime=09:00:00,WpDis=True,MinDis=True,RandomOrder=False,MaxPts=13\n"
+        # value = "Options,TaskTime=09:00:00,WpDis=True,MinDis=True,RandomOrder=False,MaxPts=13\n"
+        value = "Options,WpDis=True\n"
         out_text = out_text + value
 
         for idx, point in enumerate(points):
             if point[4] == "Start":
-                value = "ObsZone={},Style=2,R1=10000m,Line=1\n".format(idx)
+                value = "ObsZone={},Style=2,R1=3000m,A1=180,Line=1\n".format(idx)
             if point[4] == "Turn":
-                value = "ObsZone={},Style=1,R1=10000m,A1=45,R2=500m,A2=180\n".format(idx)
+                value = "ObsZone={},Style=1,R1=500m,A1=180\n".format(idx)
             if point[4] == "Finish":
                 value = "ObsZone={},Style=3,R1=500m,Line=1\n".format(idx)
             out_text = out_text + value
@@ -116,16 +117,14 @@ def deg_to_dm(deg, type):
         'lon': ('E','W')
     }
     compass_str = compass[type][0 if d >= 0 else 1]
-    # text = '{}º{}\'{:.2f}"{}'.format(abs(d), abs(m), abs(s), compass_str)
     if type == "lat":
         text= "{}{}{}".format(abs(d), f'{m:06.3f}', compass_str)
         # print("{}{}{} -- {}".format(abs(d), f'{m:06.3f}', compass_str, text))
     if type == "lon":
         text= "0{}{}{}".format(abs(d), f'{m:06.3f}', compass_str)
         # print("0{}{}{} -- {}".format(abs(d), f'{m:06.3f}', compass_str, text))
-        # print("{} + {} -> {} -- {}".format(d, m, f'{m:06.3f}', text))
+        # print("0{} + {} -> {} -- {}".format(d, m, f'{m:06.3f}', text))
     return text
-
 
 
 if __name__ == '__main__':
